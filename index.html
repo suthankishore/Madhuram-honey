@@ -29,7 +29,7 @@
     rel="stylesheet">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="css/style.css?v=48">
+  <link rel="stylesheet" href="css/style.css?v=58">
 </head>
 
 <body>
@@ -287,7 +287,8 @@
                     <button class="qty-btn" id="qty-plus" aria-label="Increase quantity" type="button">+</button>
                   </div>
                   <div class="order-total-preview">
-                    Total: <span class="order-total-price" id="order-total-price">₹650</span>
+                    <span class="order-total-label">Total</span>
+                    <span class="order-total-price" id="order-total-price">₹650</span>
                   </div>
                 </div>
 
@@ -600,85 +601,94 @@
           </div>
         </div>
 
-        <div class="reviews-grid">
-          <!-- Review Card 1 -->
-          <div class="review-card">
-            <div class="review-card-top">
-              <div class="review-stars" aria-label="5 stars">
-                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        <div class="reviews-slider-wrap">
+          <div class="reviews-grid" id="reviews-track">
+            <!-- Review Card 1 -->
+            <div class="review-card">
+              <div class="review-card-top">
+                <div class="review-stars" aria-label="5 stars">
+                  <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                </div>
+                <span class="review-verified-tag">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                  </svg>
+                  Verified Buyer
+                </span>
               </div>
-              <span class="review-verified-tag">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                </svg>
-                Verified Buyer
-              </span>
+              <p class="review-text">
+                “The natural floral aroma when opening this 750ml glass bottle is incredible. It tastes completely
+                different from supermarket syrups—dense, authentic, and naturally soothing. Our daily morning warm lemon
+                water is incomplete without Madhuram Honey!”
+              </p>
+              <div class="review-author-wrap">
+                <div class="review-avatar" aria-hidden="true">AR</div>
+                <div>
+                  <h3 class="review-author-name">Ananya Ramachandran</h3>
+                  <span class="review-author-loc">Chennai, Tamil Nadu</span>
+                </div>
+              </div>
             </div>
-            <p class="review-text">
-              “The natural floral aroma when opening this 750ml glass bottle is incredible. It tastes completely
-              different from supermarket syrups—dense, authentic, and naturally soothing. Our daily morning warm lemon
-              water is incomplete without Madhuram Honey!”
-            </p>
-            <div class="review-author-wrap">
-              <div class="review-avatar" aria-hidden="true">AR</div>
-              <div>
-                <h3 class="review-author-name">Ananya Ramachandran</h3>
-                <span class="review-author-loc">Chennai, Tamil Nadu</span>
+
+            <!-- Review Card 2 -->
+            <div class="review-card">
+              <div class="review-card-top">
+                <div class="review-stars" aria-label="5 stars">
+                  <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                </div>
+                <span class="review-verified-tag">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                  </svg>
+                  Verified Buyer
+                </span>
+              </div>
+              <p class="review-text">
+                “You can tell it is 100% raw and unheated. It has that genuine natural texture and rich enzyme clarity.
+                Great value for a full 750ml glass bottle. Ordering via WhatsApp was quick and delivery was spotless.”
+              </p>
+              <div class="review-author-wrap">
+                <div class="review-avatar" aria-hidden="true">KS</div>
+                <div>
+                  <h3 class="review-author-name">Karthik Sundaram</h3>
+                  <span class="review-author-loc">Coimbatore, Tamil Nadu</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Review Card 3 -->
+            <div class="review-card">
+              <div class="review-card-top">
+                <div class="review-stars" aria-label="5 stars">
+                  <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                </div>
+                <span class="review-verified-tag">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                  </svg>
+                  Verified Buyer
+                </span>
+              </div>
+              <p class="review-text">
+                “Purest honey we’ve had in years! The heavy glass bottle was packed with so much care to avoid transit
+                breakage. The sweetness is subtle and natural with zero sugar aftertaste. Highly recommend to everyone who
+                cares about family health.”
+              </p>
+              <div class="review-author-wrap">
+                <div class="review-avatar" aria-hidden="true">KM</div>
+                <div>
+                  <h3 class="review-author-name">Dr. Kavitha Menon</h3>
+                  <span class="review-author-loc">Bengaluru, Karnataka</span>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- Review Card 2 -->
-          <div class="review-card">
-            <div class="review-card-top">
-              <div class="review-stars" aria-label="5 stars">
-                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-              </div>
-              <span class="review-verified-tag">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                </svg>
-                Verified Buyer
-              </span>
-            </div>
-            <p class="review-text">
-              “You can tell it is 100% raw and unheated. It has that genuine natural texture and rich enzyme clarity.
-              Great value for a full 750ml glass bottle. Ordering via WhatsApp was quick and delivery was spotless.”
-            </p>
-            <div class="review-author-wrap">
-              <div class="review-avatar" aria-hidden="true">KS</div>
-              <div>
-                <h3 class="review-author-name">Karthik Sundaram</h3>
-                <span class="review-author-loc">Coimbatore, Tamil Nadu</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Review Card 3 -->
-          <div class="review-card">
-            <div class="review-card-top">
-              <div class="review-stars" aria-label="5 stars">
-                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-              </div>
-              <span class="review-verified-tag">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                </svg>
-                Verified Buyer
-              </span>
-            </div>
-            <p class="review-text">
-              “Purest honey we’ve had in years! The heavy glass bottle was packed with so much care to avoid transit
-              breakage. The sweetness is subtle and natural with zero sugar aftertaste. Highly recommend to everyone who
-              cares about family health.”
-            </p>
-            <div class="review-author-wrap">
-              <div class="review-avatar" aria-hidden="true">KM</div>
-              <div>
-                <h3 class="review-author-name">Dr. Kavitha Menon</h3>
-                <span class="review-author-loc">Bengaluru, Karnataka</span>
-              </div>
-            </div>
+          <!-- Mobile Pagination Dots (● ○ ○) -->
+          <div class="reviews-dots" id="reviews-dots" aria-label="Review pagination">
+            <button type="button" class="review-dot active" aria-label="Go to review 1" data-index="0"></button>
+            <button type="button" class="review-dot" aria-label="Go to review 2" data-index="1"></button>
+            <button type="button" class="review-dot" aria-label="Go to review 3" data-index="2"></button>
           </div>
         </div>
 
@@ -1248,7 +1258,7 @@
   </button>
 
   <!-- Scripts -->
-  <script src="js/main.js?v=48"></script>
+  <script src="js/main.js?v=58"></script>
 </body>
 
 </html>

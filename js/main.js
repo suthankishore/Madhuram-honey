@@ -20,22 +20,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function scrollToProductCard() {
     const productCard = document.getElementById('product-card');
-    if (!productCard) {
-      const ourHoneySection = document.getElementById('our-honey');
-      if (ourHoneySection) {
-        ourHoneySection.scrollIntoView({ behavior: 'smooth' });
-      }
-      return;
-    }
+    if (!productCard) return;
 
     const header = document.getElementById('site-header');
-    const headerHeight = header ? header.offsetHeight : (window.innerWidth <= 767 ? 70 : 80);
-    const topSpacing = 20;
+    const isMobile = window.innerWidth <= 768;
+    // Account for sticky/fixed navbar height dynamically
+    const headerHeight = header ? header.getBoundingClientRect().height : (isMobile ? 70 : 72);
+    // Appropriate spacing so product card is comfortably visible below navbar
+    const offsetPadding = isMobile ? 14 : 24;
     const cardRect = productCard.getBoundingClientRect();
-    const targetScrollY = window.pageYOffset + cardRect.top - headerHeight - topSpacing;
+    const currentScrollY = window.pageYOffset || window.scrollY || document.documentElement.scrollTop || 0;
+    const targetScrollY = currentScrollY + cardRect.top - headerHeight - offsetPadding;
 
     window.scrollTo({
-      top: Math.max(0, targetScrollY),
+      top: Math.max(0, Math.round(targetScrollY)),
       behavior: 'smooth'
     });
   }
@@ -913,4 +911,158 @@ Please confirm my order. Thank you! 😊`;
       closeOrderModal();
     });
   }
+
+  // =========================================================================
+  // Mobile Reviews Auto Slider / Carousel (Mobile Only: <= 767px)
+  // =========================================================================
+  function initMobileReviewsSlider() {
+    const track = document.getElementById('reviews-track');
+    const dotsContainer = document.getElementById('reviews-dots');
+    if (!track || !dotsContainer) return;
+
+    const originalCards = Array.from(track.querySelectorAll('.review-card:not(.review-card-clone)'));
+    if (originalCards.length < 2) return;
+
+    const dots = Array.from(dotsContainer.querySelectorAll('.review-dot'));
+    const totalOriginal = originalCards.length;
+
+    // Create clone of first card for seamless continuous forward loop
+    let clone = track.querySelector('.review-card-clone');
+    if (!clone) {
+      clone = originalCards[0].cloneNode(true);
+      clone.classList.add('review-card-clone');
+      clone.setAttribute('aria-hidden', 'true');
+      track.appendChild(clone);
+    }
+
+    let currentIndex = 0;
+    let autoSlideTimer = null;
+    let isTransitioning = false;
+
+    function updateDots(index) {
+      const activeIdx = index % totalOriginal;
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === activeIdx);
+      });
+    }
+
+    function goToSlide(index, smooth = true) {
+      if (window.innerWidth > 767) {
+        track.style.transform = '';
+        return;
+      }
+      isTransitioning = smooth;
+      track.style.transition = smooth ? 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)' : 'none';
+      track.style.transform = `translateX(-${index * 100}%)`;
+      currentIndex = index;
+      updateDots(index);
+    }
+
+    function nextSlide() {
+      if (window.innerWidth > 767 || isTransitioning) return;
+      goToSlide(currentIndex + 1, true);
+    }
+
+    // Handle continuous loop when transition ends on clone
+    track.addEventListener('transitionend', (e) => {
+      if (e.target !== track) return;
+      isTransitioning = false;
+      if (currentIndex === totalOriginal) {
+        // Instant reset back to original first slide without visual flicker
+        goToSlide(0, false);
+      }
+    });
+
+    function startTimer() {
+      stopTimer();
+      if (window.innerWidth <= 767) {
+        autoSlideTimer = setInterval(nextSlide, 3000);
+      }
+    }
+
+    function stopTimer() {
+      if (autoSlideTimer) {
+        clearInterval(autoSlideTimer);
+        autoSlideTimer = null;
+      }
+    }
+
+    // Dots click navigation
+    dots.forEach((dot, idx) => {
+      dot.addEventListener('click', () => {
+        stopTimer();
+        goToSlide(idx, true);
+        startTimer();
+      });
+    });
+
+    // Touch / Swipe support
+    let startX = 0;
+    let currentX = 0;
+    let isTouching = false;
+
+    track.addEventListener('touchstart', (e) => {
+      if (window.innerWidth > 767) return;
+      stopTimer();
+      isTouching = true;
+      startX = e.touches[0].clientX;
+      currentX = startX;
+    }, { passive: true });
+
+    track.addEventListener('touchmove', (e) => {
+      if (!isTouching || window.innerWidth > 767) return;
+      currentX = e.touches[0].clientX;
+    }, { passive: true });
+
+    track.addEventListener('touchend', () => {
+      if (!isTouching || window.innerWidth > 767) return;
+      isTouching = false;
+      const diffX = currentX - startX;
+      if (diffX < -40) {
+        nextSlide();
+      } else if (diffX > 40) {
+        stopTimer();
+        const prevIdx = currentIndex === 0 ? totalOriginal - 1 : currentIndex - 1;
+        goToSlide(prevIdx, true);
+      }
+      startTimer();
+    });
+
+    // Pause on user hover if using mouse on small window
+    track.addEventListener('mouseenter', stopTimer);
+    track.addEventListener('mouseleave', () => {
+      if (window.innerWidth <= 767) startTimer();
+    });
+
+    // Tab visibility handling
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        stopTimer();
+      } else if (window.innerWidth <= 767) {
+        startTimer();
+      }
+    });
+
+    // Handle responsive window resize
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 767) {
+        stopTimer();
+        track.style.transition = 'none';
+        track.style.transform = '';
+      } else {
+        if (!autoSlideTimer) {
+          goToSlide(0, false);
+          startTimer();
+        }
+      }
+    });
+
+    // Start auto slider on mobile
+    if (window.innerWidth <= 767) {
+      goToSlide(0, false);
+      startTimer();
+    }
+  }
+
+  initMobileReviewsSlider();
 });
